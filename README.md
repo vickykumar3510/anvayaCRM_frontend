@@ -1,18 +1,18 @@
 # Anvaya CRM Dashboard
 
-A full-stack CRM application designed to track leads, manage them by assigned agents and status, and generate reports to provide clear insights into lead progress and business performance.
+A full-stack CRM application designed to track leads, manage them by assigned agents and status, and generate reports that provide clear insights into lead progress and overall business performance.
 
 Built with a React frontend, Express/Node backend, MongoDB databases.
 
 ## Demo Link
 
-[Live Demo](https://major-project2-frontend-two.vercel.app/) 
+[Live Demo](https://anvaya-app.vercel.app/) 
 
 ## Quick Start
 
 ```
-git clone https://github.com/vickykumar3510/MajorProject2_frontend.git
-cd <MajorProject2_frontend>
+git clone https://github.com/vickykumar3510/anvayaCRM_frontend.git
+cd <anvayaCRM_frontend>
 npm install
 npm run dev
 ```
@@ -28,52 +28,52 @@ Watch a walkthrough of all the major features of this app: [Google Drive Link](h
 
 ## Features
 **Home**
-- Display all the Lead Name
-- Button and Links to display all the lead by Status
-- Add a New Lead button provided
-- Navigate to all the pages through Sidebar
+- Display latest lead names
+- Buttons and links to view Leads by Status
+- "Add New Lead" button available
+- Sidebar navigation to all pages
 
 **Leads**
-- Display all the Lead with Status and Sales Agent name
-- Filter by Status, Sales Agent, Tags, Lead Source dropdown available
-- "Sort by Priorty" and "Time to Close" button are available
-- Add a New Lead button also provided
+- Displays all Leads with Status and Sales Agent names
+- Filters available: Status, Sales Agent, Tags, Lead Source
+- "Sort by Priority" and "Sort by Time to Close" options provided
+- "Add New Lead" button available
 
 **Add New Lead**
-- Lead form is there to add a new Lead.
+- A form is provided to add a new Lead
 
 **Lead by Status**
-- Showing all the leads by Status with Sales Agent name
-- Agents and Priority dropdown are available
-- Sort by "Time to Close" dropdown is available
+- Displays all Leads grouped by Status with Sales Agent names
+- Agents and Priority filters available
+- "Sort by Time to Close" dropdown provided
 
 **Sales Agent Management**
-- Showing all the Sales Agent and their email id
-- Add a New Sales Agent button is also provided
+- Displays all Sales Agents with their email IDs
+- "Add New Sales Agent" button available
 
 **Add New Sales Agent**
-- A form is provided to create a new sales agent
+- A form is provided to create a new Sales Agent
 
 **Reports**
-- Report Overview is provided with the help of pie chart and bar diagrams
-- Total Leads closed and in Pipeline, Leads Closed by Sales Agent, Lead Status Distribution charts are there
+- Overview provided with pie charts and bar diagrams
+- Includes: Total Leads Closed and in Pipeline, Leads Closed by Sales Agent, Lead Status Distribution
 
 **Lead Management**
-- All details about a particular lead is provided
-- Edit Lead button is available
-- Comments feature is also available so that Sales Agents can provided their status through text
-- Filter Comments by Sales Agent dropdown is there to filter the comments by Sales Agent
+- Detailed information about a specific Lead displayed
+- "Edit Lead" button available
+- Comments feature allows Sales Agents to update status via text
+- Filter Comments by Sales Agent dropdown provided
 
 **Edit Lead Page**
-- A form is provided to edit the lead according to the latest status.
+- A form is provided to update Lead details with the latest status
 
 **Leads by Sales Agent**
-- Display all the leads of a Sales Agent and its status
-- Filter by Status and Filter by Priority dropdown are provided
-- Sort by "Time to Close" button is also provided
+- Displays all Leads assigned to a Sales Agent with their Status
+- Filters available: Status and Priority
+- "Sort by Time to Close" option provided
 
 **Settings**
-- Display All Leads and All Sales Agents with delete button
+- Displays all Leads and Sales Agents with delete options
 
 ##API Reference
 --

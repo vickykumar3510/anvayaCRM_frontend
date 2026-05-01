@@ -2,12 +2,12 @@ import "../App.css";
 import { useParams, Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import LeadContext from "../contexts/LeadContext";
+import Sidebar from "../components/Sidebar";
 
 const LeadStatusView = () => {
   const { status } = useParams();
   const { leads, loading } = useContext(LeadContext);
 
-  
   const leadAgent = [
     ...new Set(
       leads.map((l) => {
@@ -19,18 +19,14 @@ const LeadStatusView = () => {
     ),
   ];
 
-
   const [agent, setAgent] = useState("");
   const [priority, setPriority] = useState("");
-
- 
   const [sortOrder, setSortOrder] = useState("");
 
   const handlerAgent = (e) => setAgent(e.target.value);
   const handlePriority = (e) => setPriority(e.target.value);
   const handleSort = (e) => setSortOrder(e.target.value);
 
-  
   const filteredLeads = leads.filter((lead) => {
     const statusMatch = lead.status === status;
 
@@ -56,74 +52,97 @@ const LeadStatusView = () => {
 
   return (
     <div className="page-wrapper bg-leadByStatus">
-    <main>
-      <div className="pageCenter">
-      {loading && <p>Loading...</p>}
+      <main>
+        <div className="pageCenter">
+          {loading && <p>Loading...</p>}
 
-      <div className="container">
-        <h1>Leads by Status</h1>
+          <div className="container">
+            <div className="app-shell">
+              <Sidebar />
 
-        <div className="flexTwoboxes">
-          
-          <aside>
-            {/*<h3>Sidebar</h3>*/}
-            <Link className="removeLine pages-sidebar" to="/">Back to Dashboard</Link>
-          </aside>
+              <div className="app-content">
+                <div className="page-header-card">
+                  <p className="eyebrow">Leads</p>
+                  <h1>Leads by Status</h1>
+                  <p className="page-subtitle">
+                    Review all leads for the selected status and narrow them by agent, priority, or time to close.
+                  </p>
+                </div>
 
-        
-          <section>
-            <h3>Lead List by Status</h3>
-            <h4>Status: <span>{status}</span></h4>
+                <div className="section-card">
+                  <div className="section-card-header">
+                    <h3 className="panel-title">Lead List by Status</h3>
+                    <div className="status-inline">
+                      <span className="status-label">Status:</span>
+                      <span className="status-pill">{status}</span>
+                    </div>
+                  </div>
 
-  
-            {sortedLeads.length === 0 ? (
-              <p>No leads match the selected filters.</p>
-            ) : (
-              sortedLeads.map((l) => (
-                <p key={l._id}>
-                  <span>{l.name}</span> - <span style={{color:"gray"}}>Sales Agent:</span>{" "}
-                  
-                  {Array.isArray(l.salesAgent)
-                    ? l.salesAgent[0]?.name
-                    : l.salesAgent?.name}
-                    <hr />
-                </p>
-                
-              ))
-            )}
+                  {sortedLeads.length === 0 ? (
+                    <p>No leads match the selected filters.</p>
+                  ) : (
+                    <div className="list-group">
+                      {sortedLeads.map((l) => (
+                        <div className="lead-card" key={l._id}>
+                          <p>
+                            <span className="lead-name">{l.name}</span> -{" "}
+                            <span style={{ color: "gray" }}>Sales Agent:</span>{" "}
+                            {Array.isArray(l.salesAgent)
+                              ? l.salesAgent[0]?.name
+                              : l.salesAgent?.name}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
-      
-            <p><strong>Filters:</strong></p>
-            <div className="flexTwoboxes">
-              <select value={agent} onChange={handlerAgent}>
-                <option value="">All Agents</option>
-                {leadAgent.map((a) => (
-                  <option key={a} value={a}>
-                    {a}
-                  </option>
-                ))}
-              </select>
+                <div className="section-card" style={{ marginTop: "20px" }}>
+                  <div className="section-card-header">
+                    <h3 className="panel-title">Filters and Sorting</h3>
+                    <p className="panel-subtitle">
+                      Use the controls below to filter by agent or priority and change the sorting order.
+                    </p>
+                  </div>
 
-              <select value={priority} onChange={handlePriority}>
-                <option value="">All Priority</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
+                  <div className="filters-grid">
+                    <div className="filter-group">
+                      <p>Filter by Agent</p>
+                      <select className="input-wide" value={agent} onChange={handlerAgent}>
+                        <option value="">All Agents</option>
+                        {leadAgent.map((a) => (
+                          <option key={a} value={a}>
+                            {a}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="filter-group">
+                      <p>Filter by Priority</p>
+                      <select className="input-wide" value={priority} onChange={handlePriority}>
+                        <option value="">All Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                      </select>
+                    </div>
+
+                    <div className="filter-group">
+                      <p>Sort by Time to Close</p>
+                      <select className="input-wide selectDiv" value={sortOrder} onChange={handleSort}>
+                        <option value="">Default</option>
+                        <option value="asc">Time to Close (Low → High)</option>
+                        <option value="desc">Time to Close (High → Low)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-
-  
-            <p><strong>Sort by:</strong></p>
-            <select value={sortOrder} onChange={handleSort}>
-              <option value="">Default</option>
-              <option value="asc">Time to Close (Low → High)</option>
-              <option value="desc">Time to Close (High → Low)</option>
-            </select>
-          </section>
+          </div>
         </div>
-      </div>
-      </div>
-    </main>
+      </main>
     </div>
   );
 };
