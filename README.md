@@ -1,4 +1,4 @@
-# Anvaya CRM Dashboard
+# Anvaya
 
 A full-stack CRM application designed to track leads, manage them by assigned agents and status, and generate reports that provide clear insights into lead progress and overall business performance.
 
