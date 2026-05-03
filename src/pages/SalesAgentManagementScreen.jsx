@@ -9,7 +9,11 @@ const SalesAgentManagementScreen = () => {
 
   return (
     <div className="page-wrapper bg-salesAgentManagement">
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="loading-state" role="status" aria-live="polite">
+          <p>Loading...</p>
+        </div>
+      )}
 
       <main>
         <div className="pageCenter">

@@ -86,6 +86,25 @@ a {
   width: 100%;
 }
 
+.loading-state {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  background: rgba(248, 251, 255, 0.88);
+  backdrop-filter: blur(3px);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.loading-state p {
+  margin: 0;
+}
+
 .flexTwoboxes {
   display: flex;
   gap: 24px;

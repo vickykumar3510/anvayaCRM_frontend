@@ -127,7 +127,11 @@ const ReportScreen = () => {
                     <h3 className="panel-title">Report Overview</h3>
                   </div>
 
-                  {loading && <p>Loading...</p>}
+                  {loading && (
+                    <div className="loading-state" role="status" aria-live="polite">
+                      <p>Loading...</p>
+                    </div>
+                  )}
                   {error && <p>{error}</p>}
 
                   {!loading && !error && (

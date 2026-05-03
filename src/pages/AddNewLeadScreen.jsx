@@ -74,7 +74,11 @@ const AddNewLeadScreen = () => {
     <div className="page-wrapper bg-addPage">
       <main>
         <div className="pageCenter">
-          {loading && <p>Loading...</p>}
+          {loading && (
+            <div className="loading-state" role="status" aria-live="polite">
+              <p>Loading...</p>
+            </div>
+          )}
 
           <div className="container">
             <div className="app-shell">

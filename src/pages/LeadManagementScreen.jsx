@@ -24,7 +24,12 @@ const LeadManagementScreen = () => {
   const [commentAuthor, setCommentAuthor] = useState("");
   const [filterAgent, setFilterAgent] = useState("");
 
-  if (loading || !leads.length) return <p>Loading...</p>;
+  if (loading || !leads.length)
+    return (
+      <div className="loading-state" role="status" aria-live="polite">
+        <p>Loading...</p>
+      </div>
+    );
   if (!lead) return <p>Lead not found</p>;
 
   const handleEditClick = () => {
