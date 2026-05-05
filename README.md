@@ -1,8 +1,6 @@
 # Anvaya
 
-A full-stack CRM application designed to track leads, manage them by assigned agents and status, and generate reports that provide clear insights into lead progress and overall business performance.
-
-Built with a React frontend, Express/Node backend, MongoDB databases.
+A full‑stack CRM application that helps users track and manage leads effortlessly. Leads can be assigned to agents, monitored by status, and organized with tags and priorities — all in one place. The system generates clear reports to provide insights into lead progress and overall business performance.
 
 ## Demo Link
 
@@ -27,53 +25,73 @@ npm run dev
 Watch a walkthrough of all the major features of this app: [Google Drive Link](https://drive.google.com/drive/folders/1zyp1T-NHZIX2T3y74WWfJKo9ZL7bEU4t?usp=sharing)
 
 ## Features
-**Home**
-- Display latest lead names
-- Buttons and links to view Leads by Status
-- "Add New Lead" button available
-- Sidebar navigation to all pages
+**Dashboard**
+- Displays latest 5 leads for quick visibility
+- Quick filters to view leads by status
+- Shows count of leads in each status bucket
+- Option to add a new lead directly from dashboard
+- Sidebar navigation included on all the pages
 
 **Leads**
-- Displays all Leads with Status and Sales Agent names
-- Filters available: Status, Sales Agent, Tags, Lead Source
-- "Sort by Priority" and "Sort by Time to Close" options provided
-- "Add New Lead" button available
+- Displays all leads with quick access to details
+- Filters by status, sales agent, tags, and source
+- Sorting options by priority or time to close
+- Shows lead name, status, and assigned agent in list view
+- Direct link to open individual lead management screen
+- Option to add a new lead entry
 
 **Add New Lead**
-- A form is provided to add a new Lead
+- Form to create a new lead with required fields
+- Multi‑select for assigning multiple sales agents and tagging leads with categories
+- Validates required fields before submission
+- Success and error notifications via toast messages
+- Resets form after successful lead creation
 
 **Lead by Status**
-- Displays all Leads grouped by Status with Sales Agent names
-- Agents and Priority filters available
-- "Sort by Time to Close" dropdown provided
+- Displays all leads filtered by a selected status
+- Shows lead name and assigned sales agent in list view
+- Filters by agent and priority for refined results
+- Sorting options by time to close (ascending or descending)
+- Clear status indicator displayed at the top of the page
 
 **Sales Agent Management**
-- Displays all Sales Agents with their email IDs
-- "Add New Sales Agent" button available
+- Displays all active sales agents with name and emai
+- Direct link to open individual agent profile view
+- Option to add a new sales agent
 
 **Add New Sales Agent**
-- A form is provided to create a new Sales Agent
+- Form to create a new sales agent profile 
+- Validates required fields before submission
+- Success and error notifications via toast messages
+- Resets form after successful agent creation
 
 **Reports**
-- Overview provided with pie charts and bar diagrams
-- Includes: Total Leads Closed and in Pipeline, Leads Closed by Sales Agent, Lead Status Distribution
+- Visualizes overall pipeline health (open vs. closed leads) with pie chart
+- Displays leads closed by each sales agent using bar chart
+- Shows lead status distribution across categories with pie chart
+- Fetches live report data from backend APIs (/report/pipeline, /report/agent-closures, /report/status-distribution)
+- Error handling with clear messages if data fails to load
 
 **Lead Management**
-- Detailed information about a specific Lead displayed
-- "Edit Lead" button available
-- Comments feature allows Sales Agents to update status via text
-- Filter Comments by Sales Agent dropdown provided
-
-**Edit Lead Page**
-- A form is provided to update Lead details with the latest status
+- Displays full lead details
+- Edit mode to update lead information with validation
+- Add new comments with author selection and text input
+- Filter comments by agent for focused review
+- Shows comment history with author name and timestamp
+- Success and error notifications via toast messages
 
 **Leads by Sales Agent**
-- Displays all Leads assigned to a Sales Agent with their Status
-- Filters available: Status and Priority
-- "Sort by Time to Close" option provided
+- Displays all leads assigned to a specific sales agent
+- Shows lead name and current status in list view
+- Filters by lead status and priority for refined results
+- Sorting option by time to close (ascending/descending)
+- Clear agent name displayed at the top of the page
 
 **Settings**
-- Displays all Leads and Sales Agents with delete options
+- Manage cleanup actions for leads and agents from one place
+- Displays all leads and agents with option to delete individually
+- Success and error notifications via toast messages
+- Quick navigation back to dashboard via button
 
 ##API Reference
 --
