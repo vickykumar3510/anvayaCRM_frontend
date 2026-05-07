@@ -22,7 +22,7 @@ npm run dev
 - MongoDB
 
 ## Demo Video
-Watch a walkthrough of all the major features of this app: [Google Drive Link](https://drive.google.com/drive/folders/1zyp1T-NHZIX2T3y74WWfJKo9ZL7bEU4t?usp=sharing)
+Watch a walkthrough of all the major features of this app: [Google Drive Link](https://drive.google.com/file/d/1ttufhqtHZA1Kz7hLeXGR7K5TWgykspYh/view?usp=sharing)
 
 ## Features
 **Dashboard**
