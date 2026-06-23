@@ -60,7 +60,7 @@ const Sidebar = () => {
         className={`dashboard-sidebar${isMenuOpen ? " dashboard-sidebar--open" : ""}`}
       >
         <div className="sidebar-header">
-          <h3>Workspace</h3>
+          <h3>Navigation</h3>
           <button
             type="button"
             className="sidebar-close-btn"

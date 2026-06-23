@@ -1,20 +1,21 @@
-# BookWala
+# Anvaya
 
-A full‑stack book shopping application where users can create accounts, log in securely, search any book, read about the book, buy book and add book to the wishlist to buy later. Built with a React frontend, Express/Node backend, MongoDB databases.
+A full-stack CRM application where admins can sign up, log in securely, manage sales leads through the pipeline, assign sales agents, add comments, view analytics reports, and clean up records from settings. Built with a React (Vite) frontend, Express/Node backend, and MongoDB.
 
 ## Demo Link
 
-[Live Demo](https://bookwala-tool.vercel.app)
+[Live Demo](https://anvaya-app.vercel.app/)
 
 ## Quick Start
 
 ```
-git clone https://github.com/vickykumar3510/BookWala_frontend.git
-cd <BookWala_frontend>
+git clone https://github.com/vickykumar3510/anvayaCRM_frontend.git
+cd <anvayaCRM_frontend>
 npm install
 npm run dev
 ```
 ## Technologies
+
 - React JS
 - React Router
 - Node JS
@@ -24,161 +25,191 @@ npm run dev
 - bcryptjs
 
 ## Demo Video
+
 Watch a walkthrough of all the major features of this app: [Google Drive Link]()
 
 ## Features
+
 **Login**
-- User login form with email and password fields
-- Incorrect password alerts shown
-- Successful login redirects to dashboard
+- Admin login form with email and password fields
+- Invalid credentials shown via toast notifications
+- Successful login stores JWT in localStorage and redirects to dashboard
+- Redirects to dashboard if already logged in
 
 **Sign Up**
-- User account creation form provided
-- Success alert shown on account creation
-- Navigation link back to Sign‑In page
-- Input validation ensures phone number must be exactly 10 digits
+- Admin account creation form with name, email, and password
+- Success toast shown on account creation
+- Navigation link back to Sign In page
+- Duplicate user error handling
 
 **Dashboard**
-- Displays list of books with navigation to book details
-- Filtering options: book name, author, genre, ratings
-- Sorting by price (low to high / high to low)
-- Add books to cart or wishlist directly from dashboard
+- Displays latest 5 leads
+- Quick filters by status: New, Contacted, Qualified, Proposal Sent, Closed (with counts)
+- Shortcut to Add New Lead
+- Protected route — requires authentication
 
-**Book Detail**
-- Displays complete information about the selected book: author, genre, description, rating, and price
-- Provides Add to Cart button for immediate purchase intent
-- Provides Add to Wishlist button for saving books to wishlist
+**Lead List**
+- View all leads in a filterable table
+- Filter by status, agent, tags, and source
+- Sort by priority or time to close (asc/desc)
+- Navigate to individual lead detail pages
 
-**Profile**
-- Displays signed‑in user’s name, email, and phone number
-- Add/Edit address form available
-- Address cannot be saved unless phone number is 10 digits
-- Displays all orders sorted by latest order first
+**Add New Lead**
+- Create leads with name, source, status, priority, tags, time to close, and assigned agents
+- Multi-select tags and sales agents
+- Form validation with toast feedback
 
-**Wishlist**
-- Displays all books added to wishlist
-- Options to Add to Cart or Remove from wishlist
-- Search bar to find books within wishlist
+**Lead Management (Detail)**
+- View full lead information
+- Edit lead fields inline (status, priority, tags, agents, etc.)
+- Add and view comments on a lead
+- Filter comments by agent
 
-**Cart**
-- Displays all books added to cart
-- Options to Add to Wishlist, Remove, or adjust Quantity
-- Search bar to find books within cart
-- User cannot place order until a delivery address is selected
-- Navigation link to address form available
-- Shows total cart summary (books + price)
+**Leads by Status**
+- View leads filtered by pipeline status (from dashboard quick filters)
+- Filter by agent and priority
+- Sort by time to close
 
-**Checkout**
-- Displays all ordered books with details
-- Shows selected delivery address and book information
-- Cart is cleared once order is placed
+**Sales Agent Management**
+- List all sales agents with name and email
+- Navigate to individual agent profiles
+- Add new agents
 
-##API Reference
---
+**Sales Agent View**
+- View leads assigned to a specific agent
+- Filter by status and priority
+- Sort by time to close
 
-**POST /api/auth/signup**<br>
-Register new user<br>
+**Reports**
+- Pipeline vs closed leads (pie chart)
+- Agent closure performance (bar chart)
+- Lead status distribution (bar chart)
+
+**Settings**
+- Delete leads from the system
+- Delete sales agents from the system
+- Toast confirmations on successful deletion
+
+**Sidebar / Navigation**
+- Dashboard, Leads, Agents, Reports, Settings
+- Mobile-responsive menu
+- Logout clears token and returns to login
+
+## API Reference
+---
+
+**POST /auth/signup**<br>
+Register new admin user<br>
 
 Sample Response:
 ```
 { message }
 ```
 
-**POST /api/auth/login**<br>
-Login user<br>
+**POST /auth/login**<br>
+Login admin user<br>
 
 Sample Response:
 ```
-{ message, token }
+{ token }
 ```
 
-**GET /api/auth/me**<br>
-Get authenticated user details<br>
-
-Sample Response:
-```
-{ user: { _id, name, email } }
-```
-
-**GET /api/book**<br>
-List all books<br>
+**GET /leads**<br>
+List all leads<br>
 
 Sample Response:
 ```
-[{ _id, title, author, genre, status, createdAt, updatedAt }]
+[{ _id, name, source, salesAgent, status, tags, timeToClose, priority, createdAt, updatedAt, __v }]
 ```
 
-**POST /api/book**<br>
-Add new book<br>
-
-Sample Response:
-```
-{ _id, title, author, genre, status, createdAt, updatedAt }
-```
-
-**PUT /api/book/:id**<br>
-Update any book<br>
+**POST /leads**<br>
+Create a new lead<br>
 
 Sample Response:
 ```
-{ _id, title, author, genre, status, createdAt, updatedAt }
+[{ _id, name, source, salesAgent, status, tags, timeToClose, priority, createdAt, updatedAt, __v }]
 ```
 
-**GET /api/book/Genre/:byGenre**<br>
-List all books<br>
-
-Sample Response:
-```
-[{ _id, title, author, genre, status, createdAt, updatedAt }]
-```
-
-**GET /api/book/Genre/:byBookName**<br>
-List all books<br>
+**PUT /leads/:leadId**<br>
+Update a lead<br>
 
 Sample Response:
 ```
-[{ _id, title, author, genre, status, createdAt, updatedAt }]
+[{ _id, name, source, salesAgent, status, tags, timeToClose, priority, createdAt, updatedAt, __v }]
 ```
 
-**GET /api/book/Genre/:byAuthor**<br>
-List all books<br>
-
-Sample Response:
-```
-[{ _id, title, author, genre, status, createdAt, updatedAt }]
-```
-
-**GET /api/book/Genre/:byRating**<br>
-List all books<br>
+**DELETE /leads/:id**<br>
+Delete a lead<br>
 
 Sample Response:
 ```
-[{ _id, title, author, genre, status, createdAt, updatedAt }]
+{ message }
 ```
 
-**GET /api/user**<br>
-List all users<br>
-
-Sample Response:
-```
-{ user: { _id, name, email } }
-```
-
-**GET /api/order**<br>
-List all ordered books<br>
+**GET /leads/:leadId/comments**<br>
+Get comments for a lead<br>
 
 Sample Response:
 ```
-[{ _id, title, author, genre, status, createdAt, updatedAt }]
+[{ _id, text, author, createdAt, ... }]
 ```
 
-**POST /api/book**<br>
-Place order of book<br>
+**POST /leads/:leadId/comments**<br>
+Add a comment to a lead<br>
 
 Sample Response:
 ```
-[{ _id, title, author, genre, status, createdAt, updatedAt }]
+{ _id, text, author, createdAt, ... }
 ```
-##Contact 
---
+
+**GET /agents**<br>
+List all sales agents<br>
+
+Sample Response:
+```
+[{ _id, name, email, ... }]
+```
+
+**POST /agents**<br>
+Create a new sales agent<br>
+
+Sample Response:
+```
+{ agent: { _id, name, email, ... } }
+```
+
+**DELETE /agents/:id**<br>
+Delete a sales agent<br>
+
+Sample Response:
+```
+{ message }
+```
+
+**GET /report/pipeline**<br>
+Overall pipeline vs closed counts<br>
+
+Sample Response:
+```
+{ totalLeadsInPipeline, totalLeadsClosed }
+```
+
+**GET /report/agent-closures**<br>
+Closed leads per agent<br>
+
+Sample Response:
+```
+{ labels: [], counts: [] }
+```
+
+**GET /report/status-distribution**<br>
+Lead count by status<br>
+
+Sample Response:
+```
+{ labels: [], counts: [] }
+```
+
+## Contact
+
 For bugs or feature requests, please reach out to vicky.kumar3510@gmail.com
