@@ -57,7 +57,7 @@ function Login() {
   return (
     <main className="auth-page auth-page--login">
       <div className="auth-card">
-        <p className="auth-brand">workasana</p>
+        <p className="auth-brand">Anvaya</p>
         <h3 className="auth-title">Log in to your account</h3>
         <p className="auth-subtitle">Please enter your details</p>
 
