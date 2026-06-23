@@ -32,7 +32,7 @@ function App() {
               <section className="app-content">
                 <div className="page-header-card">
                   <p className="eyebrow">Dashboard</p>
-                  <h1>Anvaya CRM Dashboard</h1>
+                  <h1>TrackFlow CRM Dashboard</h1>
                   <p className="page-subtitle">
                     Track leads, review status buckets, and new lead.
                   </p>

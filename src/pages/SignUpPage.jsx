@@ -31,7 +31,7 @@ const SignUpPage = () => {
     return (
         <main className="auth-page auth-page--signup">
             <div className="auth-card">
-                <p className="auth-brand">Anvaya</p>
+                <p className="auth-brand">TrackFlow</p>
                 <h3 className="auth-title">Create your account</h3>
                 <p className="auth-subtitle">
                     Please fill in the details below to get started
@@ -63,7 +63,7 @@ const SignUpPage = () => {
                     <div className="auth-field">
                         <label htmlFor="password">Password</label>
                         <input
-                            type="text"
+                            type="password"
                             id="password"
                             placeholder="Create password"
                             value={password}

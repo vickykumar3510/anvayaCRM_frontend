@@ -116,7 +116,7 @@ const ReportScreen = () => {
               <div className="app-content">
                 <div className="page-header-card">
                   <p className="eyebrow">Reports</p>
-                  <h1>Anvaya CRM Reports</h1>
+                  <h1>TrackFlow CRM Reports</h1>
                   <p className="page-subtitle">
                     Visualize lead pipeline health, agent performance, and status distribution.
                   </p>

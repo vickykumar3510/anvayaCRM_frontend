@@ -34,7 +34,7 @@ function Login() {
       if (loginAuth.ok && loginData.token) {
         localStorage.setItem('adminToken', loginData.token)
         navigate("/dashboard")
-        toast.success("Welcome to Anvaya")
+        toast.success("Welcome to TrackFlow")
       } else if (loginAuth.status === 401) {
         toast.error("Invalid user credentials.")
       } else if (loginAuth.status >= 500) {
@@ -57,7 +57,7 @@ function Login() {
   return (
     <main className="auth-page auth-page--login">
       <div className="auth-card">
-        <p className="auth-brand">Anvaya</p>
+        <p className="auth-brand">TrackFlow</p>
         <h3 className="auth-title">Log in to your account</h3>
         <p className="auth-subtitle">Please enter your details</p>
 

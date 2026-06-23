@@ -1,16 +1,16 @@
-# Anvaya
+# TrackFlow
 
 A full-stack CRM application where admins can sign up, log in securely, manage sales leads through the pipeline, assign sales agents, add comments, view analytics reports, and clean up records from settings. Built with a React (Vite) frontend, Express/Node backend, and MongoDB.
 
 ## Demo Link
 
-[Live Demo](https://anvaya-app.vercel.app/)
+[Live Demo](https://trackflow-tool.vercel.app/)
 
 ## Quick Start
 
 ```
-git clone https://github.com/vickykumar3510/anvayaCRM_frontend.git
-cd <anvayaCRM_frontend>
+git clone https://github.com/vickykumar3510/TrackFlowCRM_frontend.git
+cd <TrackFlowCRM_frontend>
 npm install
 npm run dev
 ```
@@ -26,7 +26,7 @@ npm run dev
 
 ## Demo Video
 
-Watch a walkthrough of all the major features of this app: [Google Drive Link](https://drive.google.com/file/d/1LtCY8qxxgRGmqSDVK2fNOpkb9hVn8Bx2/view?usp=sharing)
+Watch a walkthrough of all the major features of this app: [Google Drive Link]()
 
 ## Features
 
