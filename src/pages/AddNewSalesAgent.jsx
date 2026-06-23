@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import SalesAgentContext from "../contexts/SalesAgentContext";
 import { toast } from "react-toastify";
 import Sidebar from "../components/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 const AddNewSalesAgent = () => {
+  const navigate = useNavigate();
   const { addAgent } = useContext(SalesAgentContext);
 
   const [newAgent, setNewAgent] = useState({
@@ -30,6 +32,7 @@ const AddNewSalesAgent = () => {
       await addAgent(newAgent);
 
       toast.success("New Agent added.");
+      navigate("/salesagentmanagementscreen");
 
       setNewAgent({
         name: "",

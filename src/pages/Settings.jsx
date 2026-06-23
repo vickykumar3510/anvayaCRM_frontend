@@ -115,7 +115,7 @@ const Settings = () => {
                 </div>
 
                 <div style={{ marginTop: "16px" }}>
-                  <Link to="/" className="removeLine">
+                  <Link to="/dashboard" className="removeLine">
                     <button className="smallButton">Back to Dashboard</button>
                   </Link>
                 </div>

@@ -1,61 +1,101 @@
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
+const navItems = [
+  { to: "/dashboard", end: true, icon: "🏠", label: "Dashboard" },
+  { to: "/leadlistscreen", icon: "📋", label: "Leads" },
+  { to: "/salesagentmanagementscreen", icon: "👤", label: "Agents" },
+  { to: "/reportscreen", icon: "📊", label: "Reports" },
+  { to: "/settings", icon: "⚙️", label: "Settings" },
+];
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  useEffect(() => {
+    closeMenu();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken");
+    closeMenu();
+    navigate("/");
+  };
+
   return (
-    <aside className="dashboard-sidebar">
-      <h3>Workspace</h3>
-
-      <NavLink
-        to="/"
-        end
-        className={({ isActive }) =>
-          isActive ? "removeLine active" : "removeLine"
-        }
+    <>
+      <button
+        type="button"
+        className="mobile-menu-toggle"
+        onClick={() => setIsMenuOpen((open) => !open)}
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isMenuOpen}
       >
-        <span>🏠</span>
-        <span>Dashboard</span>
-      </NavLink>
+        <span className="mobile-menu-toggle-icon" aria-hidden="true">
+          {isMenuOpen ? "✕" : "☰"}
+        </span>
+      </button>
 
-      <NavLink
-        to="/leadlistscreen"
-        className={({ isActive }) =>
-          isActive ? "removeLine active" : "removeLine"
-        }
-      >
-        <span>📋</span>
-        <span>Leads</span>
-      </NavLink>
+      {isMenuOpen && (
+        <button
+          type="button"
+          className="mobile-menu-backdrop"
+          onClick={closeMenu}
+          aria-label="Close menu"
+        />
+      )}
 
-      <NavLink
-        to="/salesagentmanagementscreen"
-        className={({ isActive }) =>
-          isActive ? "removeLine active" : "removeLine"
-        }
+      <aside
+        className={`dashboard-sidebar${isMenuOpen ? " dashboard-sidebar--open" : ""}`}
       >
-        <span>👤</span>
-        <span>Agents</span>
-      </NavLink>
+        <div className="sidebar-header">
+          <h3>Workspace</h3>
+          <button
+            type="button"
+            className="sidebar-close-btn"
+            onClick={closeMenu}
+            aria-label="Close menu"
+          >
+            ✕
+          </button>
+        </div>
 
-      <NavLink
-        to="/reportscreen"
-        className={({ isActive }) =>
-          isActive ? "removeLine active" : "removeLine"
-        }
-      >
-        <span>📊</span>
-        <span>Reports</span>
-      </NavLink>
+        {navItems.map(({ to, end, icon, label }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={end}
+            className={({ isActive }) =>
+              isActive ? "removeLine active" : "removeLine"
+            }
+            onClick={closeMenu}
+          >
+            <span>{icon}</span>
+            <span>{label}</span>
+          </NavLink>
+        ))}
 
-      <NavLink
-        to="/settings"
-        className={({ isActive }) =>
-          isActive ? "removeLine active" : "removeLine"
-        }
-      >
-        <span>⚙️</span>
-        <span>Settings</span>
-      </NavLink>
-    </aside>
+        <button
+          type="button"
+          className="removeLine sidebar-logout"
+          onClick={handleLogout}
+        >
+          <span>🚪</span>
+          <span>Log out</span>
+        </button>
+      </aside>
+    </>
   );
 };
 

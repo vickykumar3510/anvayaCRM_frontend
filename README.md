@@ -1,16 +1,16 @@
-# Anvaya
+# BookWala
 
-A full‑stack CRM application that helps users track and manage leads effortlessly. Leads can be assigned to agents, monitored by status, and organized with tags and priorities — all in one place. The system generates clear reports to provide insights into lead progress and overall business performance.
+A full‑stack book shopping application where users can create accounts, log in securely, search any book, read about the book, buy book and add book to the wishlist to buy later. Built with a React frontend, Express/Node backend, MongoDB databases.
 
 ## Demo Link
 
-[Live Demo](https://anvaya-app.vercel.app/) 
+[Live Demo](https://bookwala-tool.vercel.app)
 
 ## Quick Start
 
 ```
-git clone https://github.com/vickykumar3510/anvayaCRM_frontend.git
-cd <anvayaCRM_frontend>
+git clone https://github.com/vickykumar3510/BookWala_frontend.git
+cd <BookWala_frontend>
 npm install
 npm run dev
 ```
@@ -20,179 +20,165 @@ npm run dev
 - Node JS
 - Express
 - MongoDB
+- JWT
+- bcryptjs
 
 ## Demo Video
-Watch a walkthrough of all the major features of this app: [Google Drive Link](https://drive.google.com/file/d/1ttufhqtHZA1Kz7hLeXGR7K5TWgykspYh/view?usp=sharing)
+Watch a walkthrough of all the major features of this app: [Google Drive Link]()
 
 ## Features
+**Login**
+- User login form with email and password fields
+- Incorrect password alerts shown
+- Successful login redirects to dashboard
+
+**Sign Up**
+- User account creation form provided
+- Success alert shown on account creation
+- Navigation link back to Sign‑In page
+- Input validation ensures phone number must be exactly 10 digits
+
 **Dashboard**
-- Displays latest 5 leads for quick visibility
-- Quick filters to view leads by status
-- Shows count of leads in each status bucket
-- Option to add a new lead directly from dashboard
-- Sidebar navigation included on all the pages
+- Displays list of books with navigation to book details
+- Filtering options: book name, author, genre, ratings
+- Sorting by price (low to high / high to low)
+- Add books to cart or wishlist directly from dashboard
 
-**Leads**
-- Displays all leads with quick access to details
-- Filters by status, sales agent, tags, and source
-- Sorting options by priority or time to close
-- Shows lead name, status, and assigned agent in list view
-- Direct link to open individual lead management screen
-- Option to add a new lead entry
+**Book Detail**
+- Displays complete information about the selected book: author, genre, description, rating, and price
+- Provides Add to Cart button for immediate purchase intent
+- Provides Add to Wishlist button for saving books to wishlist
 
-**Add New Lead**
-- Form to create a new lead with required fields
-- Multi‑select for assigning multiple sales agents and tagging leads with categories
-- Validates required fields before submission
-- Success and error notifications via toast messages
-- Resets form after successful lead creation
+**Profile**
+- Displays signed‑in user’s name, email, and phone number
+- Add/Edit address form available
+- Address cannot be saved unless phone number is 10 digits
+- Displays all orders sorted by latest order first
 
-**Lead by Status**
-- Displays all leads filtered by a selected status
-- Shows lead name and assigned sales agent in list view
-- Filters by agent and priority for refined results
-- Sorting options by time to close (ascending or descending)
-- Clear status indicator displayed at the top of the page
+**Wishlist**
+- Displays all books added to wishlist
+- Options to Add to Cart or Remove from wishlist
+- Search bar to find books within wishlist
 
-**Sales Agent Management**
-- Displays all active sales agents with name and emai
-- Direct link to open individual agent profile view
-- Option to add a new sales agent
+**Cart**
+- Displays all books added to cart
+- Options to Add to Wishlist, Remove, or adjust Quantity
+- Search bar to find books within cart
+- User cannot place order until a delivery address is selected
+- Navigation link to address form available
+- Shows total cart summary (books + price)
 
-**Add New Sales Agent**
-- Form to create a new sales agent profile 
-- Validates required fields before submission
-- Success and error notifications via toast messages
-- Resets form after successful agent creation
-
-**Reports**
-- Visualizes overall pipeline health (open vs. closed leads) with pie chart
-- Displays leads closed by each sales agent using bar chart
-- Shows lead status distribution across categories with pie chart
-- Fetches live report data from backend APIs (/report/pipeline, /report/agent-closures, /report/status-distribution)
-- Error handling with clear messages if data fails to load
-
-**Lead Management**
-- Displays full lead details
-- Edit mode to update lead information with validation
-- Add new comments with author selection and text input
-- Filter comments by agent for focused review
-- Shows comment history with author name and timestamp
-- Success and error notifications via toast messages
-
-**Leads by Sales Agent**
-- Displays all leads assigned to a specific sales agent
-- Shows lead name and current status in list view
-- Filters by lead status and priority for refined results
-- Sorting option by time to close (ascending/descending)
-- Clear agent name displayed at the top of the page
-
-**Settings**
-- Manage cleanup actions for leads and agents from one place
-- Displays all leads and agents with option to delete individually
-- Success and error notifications via toast messages
-- Quick navigation back to dashboard via button
+**Checkout**
+- Displays all ordered books with details
+- Shows selected delivery address and book information
+- Cart is cleared once order is placed
 
 ##API Reference
 --
-**GET/api/leads**<br>
-List of all leads<br>
+
+**POST /api/auth/signup**<br>
+Register new user<br>
 
 Sample Response:
 ```
-[{ _id, name, source, salesAgent, status, tags, timeToClose, priority, createdAt, updatedAt, __v }]
+{ message }
 ```
 
-**GET/api/agents**<br>
-List of all Sales Agents<br>
+**POST /api/auth/login**<br>
+Login user<br>
 
 Sample Response:
-
 ```
-[{ _id, name, email, createdAt, __v }]
+{ message, token }
 ```
 
-**GET/api/leads/:id/comments**<br>
-List of all comments on a lead<br>
+**GET /api/auth/me**<br>
+Get authenticated user details<br>
 
 Sample Response:
-
 ```
-[{ id, commentText, author, createdAt }]
+{ user: { _id, name, email } }
 ```
 
-**GET/api/report/pipeline**<br>
-Number of total leads in pipeline and total closed leads<br>
+**GET /api/book**<br>
+List all books<br>
 
 Sample Response:
-
 ```
-[{ totalLeadsInPipeline, totalLeadsClosed }]
+[{ _id, title, author, genre, status, createdAt, updatedAt }]
 ```
 
-**GET/api/report/agent-closures**<br>
-Number of leads closed by sales agents<br>
+**POST /api/book**<br>
+Add new book<br>
 
 Sample Response:
-
 ```
-[{ labels, counts }]
+{ _id, title, author, genre, status, createdAt, updatedAt }
 ```
 
-**GET/api/report/status-distribution**<br>
-Report of lead status distribution<br>
+**PUT /api/book/:id**<br>
+Update any book<br>
 
 Sample Response:
-
 ```
-[{ labels, counts }]
-```
-
-**PUT/api/leads/:id**<br>
-Update a lead<br>
-
-Sample Response:
-
-```
-[{ _id, name, source, salesAgent, status, tags, timeToClose, priority, createdAt, updatedAt, __v }]
+{ _id, title, author, genre, status, createdAt, updatedAt }
 ```
 
-**DELETE/api/leads/:id**<br>
-Delete a lead<br>
+**GET /api/book/Genre/:byGenre**<br>
+List all books<br>
 
 Sample Response:
-
 ```
-[{ message }]
+[{ _id, title, author, genre, status, createdAt, updatedAt }]
 ```
 
-**DELETE/api/agents/:id**<br>
-Delete an agent<br>
+**GET /api/book/Genre/:byBookName**<br>
+List all books<br>
 
 Sample Response:
-
 ```
-[{ message }]
-```
-
-**POST/api/agents**<br>
-For add a Sales Agent<br>
-```
-[{ _id, name, email, createdAt, __v }]
+[{ _id, title, author, genre, status, createdAt, updatedAt }]
 ```
 
-**POST/api/leads**<br>
-For create a Lead<br>
+**GET /api/book/Genre/:byAuthor**<br>
+List all books<br>
+
+Sample Response:
 ```
-[{ _id, name, source, salesAgent, status, tags, timeToClose, priority, createdAt, updatedAt, __v }]
+[{ _id, title, author, genre, status, createdAt, updatedAt }]
 ```
 
-**POST/api/leads/:id/comments**<br>
-For add a comment on a lead<br>
+**GET /api/book/Genre/:byRating**<br>
+List all books<br>
+
+Sample Response:
 ```
-[{ id, commentText, author, createdAt }]
+[{ _id, title, author, genre, status, createdAt, updatedAt }]
 ```
 
+**GET /api/user**<br>
+List all users<br>
+
+Sample Response:
+```
+{ user: { _id, name, email } }
+```
+
+**GET /api/order**<br>
+List all ordered books<br>
+
+Sample Response:
+```
+[{ _id, title, author, genre, status, createdAt, updatedAt }]
+```
+
+**POST /api/book**<br>
+Place order of book<br>
+
+Sample Response:
+```
+[{ _id, title, author, genre, status, createdAt, updatedAt }]
+```
 ##Contact 
 --
 For bugs or feature requests, please reach out to vicky.kumar3510@gmail.com

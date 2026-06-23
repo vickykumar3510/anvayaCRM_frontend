@@ -2,11 +2,21 @@ import "../App.css";
 import { useContext, useState } from "react";
 import SalesAgentContext from "../contexts/SalesAgentContext";
 import LeadContext from "../contexts/LeadContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Sidebar from "../components/Sidebar";
 
+const TAG_OPTIONS = [
+  "High Value",
+  "Follow-up",
+  "Potential Deal",
+  "Proposal Sent",
+  "Negotiation",
+  "Closed Won",
+];
+
 const AddNewLeadScreen = () => {
+  const navigate = useNavigate();
   const { agents, loading } = useContext(SalesAgentContext);
   const { addLead } = useContext(LeadContext);
 
@@ -25,10 +35,14 @@ const AddNewLeadScreen = () => {
     setNewLead((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleMultiSelect = (e) => {
-    const { name, selectedOptions } = e.target;
-    const values = Array.from(selectedOptions, (opt) => opt.value);
-    setNewLead((prev) => ({ ...prev, [name]: values }));
+  const toggleArrayValue = (field, value) => {
+    setNewLead((prev) => {
+      const current = prev[field];
+      const next = current.includes(value)
+        ? current.filter((item) => item !== value)
+        : [...current, value];
+      return { ...prev, [field]: next };
+    });
   };
 
   const handleSubmit = async (event) => {
@@ -54,6 +68,7 @@ const AddNewLeadScreen = () => {
       });
 
       toast.success("Lead created successfully");
+      navigate("/leadlistscreen");
 
       setNewLead({
         name: "",
@@ -131,22 +146,31 @@ const AddNewLeadScreen = () => {
                       </select>
                     </div>
 
-                    <div className="form-row">
+                    <div className="form-row form-row-stack">
                       <label>Sales Agent:</label>
-                      <select
-                        name="salesAgent"
-                        className="input-wide"
-                        multiple
-                        value={newLead.salesAgent}
-                        onChange={handleMultiSelect}
-                      >
-                        {!loading &&
-                          agents.map((a) => (
-                            <option key={a._id} value={a._id}>
-                              {a.name}
-                            </option>
-                          ))}
-                      </select>
+                      <div className="multi-select-field input-wide">
+                        <p className="multi-select-hint">
+                          {newLead.salesAgent.length > 0
+                            ? `${newLead.salesAgent.length} agent${newLead.salesAgent.length > 1 ? "s" : ""} selected`
+                            : "Click to select one or more agents"}
+                        </p>
+                        <div className="chip-group">
+                          {!loading && agents.length === 0 && (
+                            <span className="chip-empty">No agents available</span>
+                          )}
+                          {!loading &&
+                            agents.map((a) => (
+                              <button
+                                key={a._id}
+                                type="button"
+                                className={`chip-option${newLead.salesAgent.includes(a._id) ? " chip-option--selected" : ""}`}
+                                onClick={() => toggleArrayValue("salesAgent", a._id)}
+                              >
+                                {a.name}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
                     </div>
 
                     <div className="form-row">
@@ -193,22 +217,27 @@ const AddNewLeadScreen = () => {
                       />
                     </div>
 
-                    <div className="form-row">
+                    <div className="form-row form-row-stack">
                       <label>Tags:</label>
-                      <select
-                        name="tags"
-                        className="input-wide"
-                        multiple
-                        value={newLead.tags}
-                        onChange={handleMultiSelect}
-                      >
-                        <option value="High Value">High Value</option>
-                        <option value="Follow-up">Follow-up</option>
-                        <option value="Potential Deal">Potential Deal</option>
-                        <option value="Proposal Sent">Proposal Sent</option>
-                        <option value="Negotiation">Negotiation</option>
-                        <option value="Closed Won">Closed Won</option>
-                      </select>
+                      <div className="multi-select-field input-wide">
+                        <p className="multi-select-hint">
+                          {newLead.tags.length > 0
+                            ? `${newLead.tags.length} tag${newLead.tags.length > 1 ? "s" : ""} selected`
+                            : "Click to select one or more tags"}
+                        </p>
+                        <div className="chip-group">
+                          {TAG_OPTIONS.map((tag) => (
+                            <button
+                              key={tag}
+                              type="button"
+                              className={`chip-option${newLead.tags.includes(tag) ? " chip-option--selected" : ""}`}
+                              onClick={() => toggleArrayValue("tags", tag)}
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
 
                     <button type="submit" className="addButton">

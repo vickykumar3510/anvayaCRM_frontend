@@ -7,6 +7,32 @@ import CommentContext from "../contexts/CommentsContext";
 import { toast } from "react-toastify";
 import Sidebar from "../components/Sidebar";
 
+const TAG_OPTIONS = [
+  "High Value",
+  "Follow-up",
+  "Potential Deal",
+  "Proposal Sent",
+  "Negotiation",
+  "Closed Won",
+];
+
+const getSalesAgentIds = (salesAgent) => {
+  if (Array.isArray(salesAgent)) {
+    return salesAgent.map((a) => (typeof a === "object" ? a._id : a)).filter(Boolean);
+  }
+  if (salesAgent?._id) return [salesAgent._id];
+  if (typeof salesAgent === "string") return [salesAgent];
+  return [];
+};
+
+const getSalesAgentNames = (salesAgent) => {
+  if (Array.isArray(salesAgent)) {
+    const names = salesAgent.map((a) => (typeof a === "object" ? a.name : null)).filter(Boolean);
+    return names.length ? names.join(", ") : "Unassigned";
+  }
+  return salesAgent?.name || "Unassigned";
+};
+
 const LeadManagementScreen = () => {
   const { leadId } = useParams();
   const { leads, loading, updateLead } = useContext(LeadContext);
@@ -40,7 +66,7 @@ const LeadManagementScreen = () => {
       priority: lead.priority,
       tags: lead.tags || [],
       timeToClose: lead.timeToClose,
-      salesAgent: lead.salesAgent?.[0]?._id || "",
+      salesAgent: getSalesAgentIds(lead.salesAgent),
     });
     setIsEditing(true);
   };
@@ -50,18 +76,29 @@ const LeadManagementScreen = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleTagsChange = (e) => {
-    const selectedTags = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    setFormData((prev) => ({ ...prev, tags: selectedTags }));
+  const toggleArrayValue = (field, value) => {
+    setFormData((prev) => {
+      const current = prev[field];
+      const next = current.includes(value)
+        ? current.filter((item) => item !== value)
+        : [...current, value];
+      return { ...prev, [field]: next };
+    });
   };
 
   const handleUpdate = async () => {
     try {
-      if (!formData.timeToClose || Number(formData.timeToClose) < 1) {
-        toast.error("Time to Close must be at least 1");
+      if (
+        !formData.name ||
+        !formData.source ||
+        formData.salesAgent.length === 0 ||
+        !formData.status ||
+        !formData.priority ||
+        !formData.tags.length ||
+        !formData.timeToClose ||
+        Number(formData.timeToClose) < 1
+      ) {
+        toast.error("Please fill all required fields");
         return;
       }
       const updatedData = { ...formData, timeToClose: Number(formData.timeToClose) };
@@ -107,28 +144,50 @@ const LeadManagementScreen = () => {
 
                   {!isEditing ? (
                     <div className="list-group">
-                      <p><strong>Name:</strong> {lead.name}</p>
-                      <p><strong>Agent:</strong> {lead.salesAgent?.[0]?.name || "Unassigned"}</p>
-                      <p><strong>Source:</strong> {lead.source}</p>
-                      <p><strong>Status:</strong> {lead.status}</p>
+                      <p><strong>Lead Name:</strong> {lead.name}</p>
+                      <p><strong>Sales Agent:</strong> {getSalesAgentNames(lead.salesAgent)}</p>
+                      <p><strong>Lead Source:</strong> {lead.source}</p>
+                      <p><strong>Lead Status:</strong> {lead.status}</p>
                       <p><strong>Priority:</strong> {lead.priority}</p>
-                      <p><strong>Time to Close:</strong> {lead.timeToClose}</p>
+                      <p><strong>Time to Close(days):</strong> {lead.timeToClose}</p>
                       <p><strong>Tags:</strong> {lead.tags?.join(", ")}</p>
                       <button className="smallButton input-wide" onClick={handleEditClick}>Edit Lead</button>
                     </div>
                   ) : (
                     <div className="filters-grid">
+                      <label><strong>Lead Name:</strong></label>
                       <input name="name" value={formData.name} onChange={handleChange} />
-                      <select name="salesAgent" value={formData.salesAgent} onChange={handleChange}>
-                        <option value="">Select Agent</option>
-                        {agents.map((a) => <option key={a._id} value={a._id}>{a.name}</option>)}
-                      </select>
+                      <label><strong>Sales Agent:</strong></label>
+                      <div className="multi-select-field input-wide">
+                        <p className="multi-select-hint">
+                          {formData.salesAgent.length > 0
+                            ? `${formData.salesAgent.length} agent${formData.salesAgent.length > 1 ? "s" : ""} selected`
+                            : "Click to select one or more agents"}
+                        </p>
+                        <div className="chip-group">
+                          {agents.length === 0 && (
+                            <span className="chip-empty">No agents available</span>
+                          )}
+                          {agents.map((a) => (
+                            <button
+                              key={a._id}
+                              type="button"
+                              className={`chip-option${formData.salesAgent.includes(a._id) ? " chip-option--selected" : ""}`}
+                              onClick={() => toggleArrayValue("salesAgent", a._id)}
+                            >
+                              {a.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <label><strong>Lead Source:</strong></label>
                       <select name="source" value={formData.source} onChange={handleChange}>
                         <option value="Website">Website</option>
                         <option value="Referral">Referral</option>
                         <option value="Cold Call">Cold Call</option>
                         <option value="Advertisement">Advertisement</option>
                       </select>
+                      <label><strong>Lead Status:</strong></label>
                       <select name="status" value={formData.status} onChange={handleChange}>
                         <option value="New">New</option>
                         <option value="Contacted">Contacted</option>
@@ -136,16 +195,33 @@ const LeadManagementScreen = () => {
                         <option value="Closed">Closed</option>
                         <option value="Proposal Sent">Proposal Sent</option>
                       </select>
+                      <label><strong>Priority:</strong></label>
                       <select name="priority" value={formData.priority} onChange={handleChange}>
                         <option value="High">High</option>
                         <option value="Medium">Medium</option>
                         <option value="Low">Low</option>
                       </select>
-                      <select multiple value={formData.tags} onChange={handleTagsChange}>
-                        <option value="Important">Important</option>
-                        <option value="Follow-up">Follow-up</option>
-                        <option value="Long-term">Long-term</option>
-                      </select>
+                      <label><strong>Tags:</strong></label>
+                      <div className="multi-select-field input-wide">
+                        <p className="multi-select-hint">
+                          {formData.tags.length > 0
+                            ? `${formData.tags.length} tag${formData.tags.length > 1 ? "s" : ""} selected`
+                            : "Click to select one or more tags"}
+                        </p>
+                        <div className="chip-group">
+                          {TAG_OPTIONS.map((tag) => (
+                            <button
+                              key={tag}
+                              type="button"
+                              className={`chip-option${formData.tags.includes(tag) ? " chip-option--selected" : ""}`}
+                              onClick={() => toggleArrayValue("tags", tag)}
+                            >
+                              {tag}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <label><strong>Time to Close(days):</strong></label>
                       <input type="number" name="timeToClose" min="1" value={formData.timeToClose} onChange={handleChange} />
                       <div className="action-row">
                         <button className="smallButton" onClick={handleUpdate}>Save</button>
